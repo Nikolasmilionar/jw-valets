@@ -15,24 +15,26 @@
 
 <header class="site-header">
   <div class="wordmark">JW <span>Valets</span></div>
-  <a class="btn btn-primary" href="tel:+447391518673">Book now</a>
+  <nav class="site-nav">
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#book">Book</a>
+  </nav>
+  <a class="btn btn-primary" href="#book">Book now</a>
 </header>
 
 <main>
 
-  <section class="hero">
-    <div class="hero-content">
+  <section class="hero-full" id="hero">
+    <div class="hero-full-media">
+      <img class="hero-full-img" src="assets/images/hero-rolls-royce-grille.png" alt="Close up of a Rolls Royce grille and bonnet ornament after a JW Valets detail">
+    </div>
+    <div class="hero-full-overlay"></div>
+    <div class="hero-full-content container">
       <p class="eyebrow">Mobile luxury detailing, West Midlands</p>
       <h1>Nothing but luxury.<br>Nothing but the details.</h1>
-      <p class="hero-sub">Mobile valeting and paint correction for cars that deserve better than a drive through wash. We come to you.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="tel:+447391518673">Book your detail</a>
-        <a class="link-inline" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">or message us on Instagram, @_jwvalets</a>
-      </div>
-      <p class="hero-trust">Mobile service <span>&middot;</span> West Midlands <span>&middot;</span> open to travel</p>
-    </div>
-    <div class="hero-media">
-      <img src="assets/images/hero-rolls-royce-grille.png" alt="Close up of a Rolls Royce grille and bonnet ornament after a JW Valets detail">
+      <p class="hero-sub">Mobile valeting and paint correction for cars that deserve better than a drive through wash.</p>
+      <a class="btn btn-primary" href="#book">Book now</a>
     </div>
   </section>
 
@@ -47,7 +49,6 @@
   <section class="block" id="services">
     <div class="container">
       <div class="section-head reveal-init">
-        <p class="eyebrow">Services</p>
         <h2>The valet menu</h2>
         <p>Four levels, each one builds on the last. Prices from, final price depends on the car and its condition.</p>
       </div>
@@ -128,7 +129,6 @@
         <img src="assets/images/correction-porsche-911.png" alt="Porsche 911 Carrera S after paint correction and detailing">
       </div>
       <div>
-        <p class="eyebrow">Correction &amp; protection</p>
         <h2>Where JW Valets stands apart</h2>
         <p style="color: var(--grey-light); margin-top: 14px;">Machine polishing and long term ceramic protection, done properly, not rushed.</p>
 
@@ -154,7 +154,6 @@
         <img src="assets/images/mobile-van-jw-valets.png" alt="JW Valets branded van on site at a customer's driveway">
       </div>
       <div>
-        <p class="eyebrow">How mobile works</p>
         <h2>We come to you</h2>
         <p style="color: var(--grey-light); margin-top: 14px;">No shop to drive to, no drop off, no waiting around somewhere that isn't yours. Everything JW Valets needs travels in the van.</p>
         <ul class="mobile-points">
@@ -169,7 +168,6 @@
   <section class="block" id="gallery">
     <div class="container">
       <div class="section-head reveal-init">
-        <p class="eyebrow">Gallery</p>
         <h2>Recent work</h2>
       </div>
       <div class="gallery-grid">
@@ -181,14 +179,74 @@
     </div>
   </section>
 
-  <section class="contact reveal-init" id="contact">
+  <section class="block booking reveal-init" id="book">
     <div class="container">
-      <p class="loyalty-note"><strong>10% off</strong> every 5th visit</p>
-      <h2>Call or message us on Instagram to book</h2>
-      <div class="contact-ctas">
-        <a class="btn btn-primary" href="tel:+447391518673">Call, 07391 518673</a>
-        <a class="btn btn-ghost" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">Message on Instagram, @_jwvalets</a>
+      <div class="section-head">
+        <p class="loyalty-note"><strong>10% off</strong> every 5th visit</p>
+        <h2>Request your booking</h2>
+        <p>Tell us what you need and we will confirm by phone or text. This is a request, not an instant booking.</p>
       </div>
+
+      <div class="booking-wizard" id="booking-wizard">
+        <div class="booking-progress">
+          <div class="booking-step-dot is-active" data-step-dot="1"><span>1</span>Service</div>
+          <div class="booking-step-dot" data-step-dot="2"><span>2</span>Timing</div>
+          <div class="booking-step-dot" data-step-dot="3"><span>3</span>Details</div>
+          <div class="booking-step-dot" data-step-dot="4"><span>4</span>Send</div>
+        </div>
+
+        <div class="booking-panel" data-step="1">
+          <h3>Choose a service</h3>
+          <div class="booking-option-grid">
+            <button type="button" class="booking-option" data-service="Exterior" data-price="from &pound;20">Exterior<span>from &pound;20</span></button>
+            <button type="button" class="booking-option" data-service="Full Valet" data-price="from &pound;45">Full Valet<span>from &pound;45</span></button>
+            <button type="button" class="booking-option" data-service="Premium" data-price="from &pound;55">Premium<span>from &pound;55</span></button>
+            <button type="button" class="booking-option" data-service="Luxury" data-price="from &pound;80">Luxury<span>from &pound;80</span></button>
+          </div>
+        </div>
+
+        <div class="booking-panel" data-step="2" hidden>
+          <h3>Preferred timing</h3>
+          <label class="booking-field">
+            <span>Preferred date</span>
+            <input type="date" id="booking-date">
+          </label>
+          <div class="booking-option-grid booking-option-grid-3">
+            <button type="button" class="booking-option" data-time="Morning">Morning</button>
+            <button type="button" class="booking-option" data-time="Afternoon">Afternoon</button>
+            <button type="button" class="booking-option" data-time="Evening">Evening</button>
+          </div>
+          <p class="booking-note">This is your preference, not a live availability check. We will confirm what actually works.</p>
+        </div>
+
+        <div class="booking-panel" data-step="3" hidden>
+          <h3>Your details</h3>
+          <label class="booking-field">
+            <span>Name</span>
+            <input type="text" id="booking-name" autocomplete="name">
+          </label>
+          <label class="booking-field">
+            <span>Phone number</span>
+            <input type="tel" id="booking-phone" autocomplete="tel">
+          </label>
+        </div>
+
+        <div class="booking-panel" data-step="4" hidden>
+          <h3>Review and send</h3>
+          <div class="booking-summary" id="booking-summary"></div>
+          <a class="btn btn-primary" id="booking-send" href="tel:+447391518673">Send booking request</a>
+          <p class="booking-note">This opens a text message pre-filled with your request to JW Valets. Send it from your phone and we will confirm shortly, this is a request, not a confirmed booking.</p>
+        </div>
+
+        <p class="booking-error" id="booking-error"></p>
+
+        <div class="booking-controls">
+          <button type="button" class="btn btn-ghost" id="booking-back" hidden>Back</button>
+          <button type="button" class="btn btn-primary" id="booking-next">Next</button>
+        </div>
+      </div>
+
+      <p class="booking-direct">Prefer to skip the form? <a class="link-inline" href="tel:+447391518673">Call us</a> or <a class="link-inline" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">message us on Instagram, @_jwvalets</a> directly.</p>
     </div>
   </section>
 
