@@ -385,25 +385,8 @@ section[id] {
   color: var(--accent);
 }
 
-/* Flagship, image-backed feature blocks. Sits at the foot of the page. */
-
-.flagship {
-  border-top: 1px solid var(--border);
-}
-
-.flagship-intro {
-  padding-block: var(--space-2xl) var(--space-l);
-}
-
-.flagship-intro h2 {
-  max-width: 18ch;
-}
-
-.flagship-intro p {
-  margin-top: var(--space-s);
-  color: var(--grey-light);
-  max-width: 52ch;
-}
+/* Flagship, image-backed feature blocks. Between the first band and the
+   valet menu, so the premium work is seen before the priced list. */
 
 .feature {
   position: relative;
