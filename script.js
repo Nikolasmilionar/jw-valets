@@ -8,32 +8,84 @@
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-    return;
-  }
+  /* Scroll entrance motion. Headings with data-anim="left" slide in from
+     the left, blocks with data-anim="up" fade up, each once when they
+     enter the viewport. Anything already on screen at load is shown
+     straight away, so nothing above the fold waits on an async callback.
+     A safety timer reveals any stragglers if the observer never fires.
+     Under prefers-reduced-motion we never hide anything at all. */
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    var animEls = document.querySelectorAll("[data-anim]");
 
-  var revealEls = document.querySelectorAll(".reveal-init");
+    var reveal = function (el) {
+      el.classList.remove("anim-pending");
+      el.classList.add("anim-in");
+    };
 
-  revealEls.forEach(function (el) {
-    el.classList.add("js-hidden");
-  });
+    animEls.forEach(function (el) {
+      el.classList.add("anim-pending");
+    });
 
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove("js-hidden");
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+    var animObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            animObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    animEls.forEach(function (el) {
+      animObserver.observe(el);
+    });
+
+    /* Safety nets so content is never left invisible: reveal whatever is
+       in view once the page has fully loaded, then force-reveal anything
+       still pending shortly after. */
+    var revealVisible = function () {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      document.querySelectorAll("[data-anim].anim-pending").forEach(function (el) {
+        if (el.getBoundingClientRect().top < vh) {
+          reveal(el);
         }
       });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-  );
+    };
+    window.addEventListener("load", revealVisible);
+    window.setTimeout(function () {
+      document.querySelectorAll("[data-anim].anim-pending").forEach(reveal);
+    }, 2000);
+  }
 
-  revealEls.forEach(function (el) {
-    observer.observe(el);
-  });
+  /* Keep the floating contact button clear of the booking widget on
+     small screens: hide it while the booking section is on screen. */
+  var fab = document.querySelector(".fab");
+  var bookingSection = document.getElementById("book");
+  if (fab && bookingSection && "IntersectionObserver" in window) {
+    var smallScreen = window.matchMedia("(max-width: 699px)");
+
+    var fabObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var overlapping = entry.isIntersecting && smallScreen.matches;
+          fab.classList.toggle("is-hidden", overlapping);
+        });
+      },
+      { threshold: 0.08 }
+    );
+
+    fabObserver.observe(bookingSection);
+
+    if (smallScreen.addEventListener) {
+      smallScreen.addEventListener("change", function () {
+        if (!smallScreen.matches) {
+          fab.classList.remove("is-hidden");
+        }
+      });
+    }
+  }
 })();
 
 (function () {

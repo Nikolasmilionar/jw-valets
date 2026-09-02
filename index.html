@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
 <title>JW Valets, Mobile Car Detailing in the West Midlands</title>
 <meta name="description" content="JW Valets. Mobile luxury and supercar detailing across the West Midlands, UK. We come to you. Nothing but luxury.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="site-header">
-  <div class="wordmark">JW <span>Valets</span></div>
+  <a class="wordmark" href="#hero">JW <span>Valets</span></a>
   <nav class="site-nav">
     <a href="#services">Services</a>
     <a href="#gallery">Gallery</a>
@@ -30,89 +30,82 @@
       <img class="hero-full-img" src="assets/images/hero-rolls-royce-grille.png" alt="Close up of a Rolls Royce grille and bonnet ornament after a JW Valets detail">
     </div>
     <div class="hero-full-overlay"></div>
-    <div class="hero-full-content container">
+    <div class="hero-full-content wrap">
       <p class="eyebrow">Mobile luxury detailing, West Midlands</p>
       <h1>Nothing but luxury.<br>Nothing but the details.</h1>
-      <p class="hero-sub">Mobile valeting and paint correction for cars that deserve better than a drive through wash.</p>
+      <p class="hero-sub">I do mobile valeting and paint correction, at your home or work, for cars that deserve better than a drive through wash.</p>
       <a class="btn btn-primary" href="#book">Book now</a>
     </div>
   </section>
 
-  <div class="trust-strip">
-    <div class="container">
-      <span><strong>Mobile service.</strong> We come to you.</span>
+  <div class="trust-strip" data-anim="up">
+    <div class="wrap">
+      <span>I come to you.</span>
       <span class="trust-dot">&bull;</span>
-      <span>Based in the West Midlands, open to travel.</span>
+      <span>Based in the West Midlands, and I travel for the right car.</span>
     </div>
   </div>
 
-  <section class="block" id="services">
-    <div class="container">
-      <div class="section-head reveal-init">
-        <h2>The valet menu</h2>
-        <p>Four levels, each one builds on the last. Prices from, final price depends on the car and its condition.</p>
+  <section class="band band-porsche" aria-label="JW Valets craftsmanship">
+    <div class="band-inner" data-anim="up">
+      <h2 data-anim="left">I would rather turn a car away than rush it.</h2>
+      <a class="btn btn-on-photo" href="#services">See the full menu</a>
+    </div>
+    <a class="band-scroll" href="#services" aria-label="Scroll to the valet menu"><span></span></a>
+  </section>
+
+  <section class="flagship" id="correction">
+    <article class="feature" data-anim="up" style="--img: url('assets/images/gallery-ferrari-458.png')">
+      <div class="feature-inner">
+        <h3>Machine Polish package</h3>
+        <p class="feature-price">from &pound;150</p>
+        <p>A full interior and exterior deep clean, then I clay bar the paint to pull off the bonded contamination and machine polish the whole body.</p>
+      </div>
+    </article>
+
+    <article class="feature feature-alt" data-anim="up" style="--img: url('assets/images/gallery-rolls-royce-wraith.png')">
+      <div class="feature-inner">
+        <h3>JW Valets Showroom Bundle</h3>
+        <p class="feature-price">&pound;450</p>
+        <p>The full job. Interior and exterior deep clean, full car decontamination, a heavy cut compound that takes out 90% of the imperfections, and a 2 year ceramic coating on top.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="tiers" id="services">
+    <div class="wrap">
+      <div class="tiers-head">
+        <h2 data-anim="left">The valet menu</h2>
+        <p data-anim="up">Four levels, each builds on the one before it. The prices are a starting point, the final number depends on the car and the state it turns up in.</p>
       </div>
 
-      <div class="services-grid">
-        <div class="tier-card reveal-init">
-          <i class="ph-bold ph-drop tier-icon"></i>
-          <div class="tier-name">Exterior</div>
-          <div class="tier-price">from &pound;20</div>
-          <ul class="tier-list">
-            <li>Snow foam</li>
-            <li>Alloys cleaned</li>
-            <li>Hand wash</li>
-            <li>Exterior glass clean</li>
-            <li>Tyre dressing sealant applied</li>
-          </ul>
-        </div>
+      <ul class="tier-list">
+        <li class="tier" data-anim="up">
+          <h3 class="tier-name">Exterior <span class="tier-price">from &pound;20</span></h3>
+          <p class="tier-note">When you want it properly clean outside and nothing more.</p>
+          <p class="tier-incl">Snow foam, alloys cleaned, hand wash, exterior glass clean, tyre dressing sealant applied</p>
+        </li>
+        <li class="tier" data-anim="up">
+          <h3 class="tier-name">Full Valet <span class="tier-price">from &pound;45</span></h3>
+          <p class="tier-meta">Approx 1hr 30</p>
+          <p class="tier-note">The one most people book. Inside and out, nothing skipped.</p>
+          <p class="tier-incl">Everything in Exterior. All mats and carpets hoovered, interior wipe down, door sills and pedals wiped, windows wiped</p>
+        </li>
+        <li class="tier" data-anim="up">
+          <h3 class="tier-name">Premium <span class="tier-price">from &pound;55</span></h3>
+          <p class="tier-meta">Approx 2hr 30</p>
+          <p class="tier-note">Where I start correcting the paint rather than only cleaning it.</p>
+          <p class="tier-incl">Everything in Full Valet. Pre wash applied, wheel rims decontaminated, spray wax applied, seats wet vacuumed with stain removal, leather seats scrubbed</p>
+        </li>
+        <li class="tier" data-anim="up">
+          <h3 class="tier-name">Luxury <span class="tier-price">from &pound;80</span></h3>
+          <p class="tier-meta">3+ hours</p>
+          <p class="tier-note">A day on the car. Every panel, every seam, the engine bay.</p>
+          <p class="tier-incl">Everything above. Paintwork decontamination, bug and tar removal, engine bay clean, all carpets and mats shampooed, leather deep clean</p>
+        </li>
+      </ul>
 
-        <div class="tier-card reveal-init">
-          <i class="ph-bold ph-broom tier-icon"></i>
-          <div class="tier-name">Full Valet</div>
-          <div class="tier-price">from &pound;45</div>
-          <div class="tier-time">Approx 1hr 30</div>
-          <ul class="tier-list">
-            <li class="inherited">Everything in Exterior</li>
-            <li>All mats and carpets hoovered</li>
-            <li>Interior wipe down</li>
-            <li>Door sills and pedals wiped</li>
-            <li>Windows wiped</li>
-          </ul>
-        </div>
-
-        <div class="tier-card reveal-init">
-          <i class="ph-bold ph-sparkle tier-icon"></i>
-          <div class="tier-name">Premium</div>
-          <div class="tier-price">from &pound;55</div>
-          <div class="tier-time">Approx 2hr 30</div>
-          <ul class="tier-list">
-            <li class="inherited">Everything in Full Valet</li>
-            <li>Pre wash applied</li>
-            <li>Wheel rims decontaminated</li>
-            <li>Spray wax applied</li>
-            <li>Seats wet vacuumed with stain removal</li>
-            <li>Leather seats scrubbed</li>
-          </ul>
-        </div>
-
-        <div class="tier-card is-luxury reveal-init">
-          <i class="ph-bold ph-crown tier-icon"></i>
-          <div class="tier-name">Luxury</div>
-          <div class="tier-price">from &pound;80</div>
-          <div class="tier-time">3+ hours</div>
-          <ul class="tier-list">
-            <li class="inherited">Everything above</li>
-            <li>Paintwork decontamination</li>
-            <li>Bug and tar removal</li>
-            <li>Engine bay clean</li>
-            <li>All carpets and mats shampooed</li>
-            <li>Leather deep clean</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="extras-line">
+      <p class="extras-line" data-anim="up">
         <strong>Extras:</strong>
         Machine polish, single stage enhancement, POA &middot;
         Tar removal &pound;10 &middot;
@@ -123,71 +116,79 @@
     </div>
   </section>
 
-  <section class="correction reveal-init" id="correction">
-    <div class="container">
-      <div class="correction-media">
-        <img src="assets/images/correction-porsche-911.png" alt="Porsche 911 Carrera S after paint correction and detailing">
+  <section class="mobile-service" id="mobile">
+    <div class="wrap mobile-service-grid">
+      <div class="mobile-service-text">
+        <h2 data-anim="left">We come to you</h2>
+        <p data-anim="up">There is no unit to drop the car at. I bring the water, the power and the kit to your door, and you get on with your day.</p>
+        <ol class="steps" data-anim="up">
+          <li><span class="steps-num">01</span> Tell me where the car is. Home, work, wherever it sits.</li>
+          <li><span class="steps-num">02</span> I turn up with my own water and power.</li>
+          <li><span class="steps-num">03</span> West Midlands based. I will travel further when the car is worth it.</li>
+        </ol>
       </div>
-      <div>
-        <h2>Where JW Valets stands apart</h2>
-        <p style="color: var(--grey-light); margin-top: 14px;">Machine polishing and long term ceramic protection, done properly, not rushed.</p>
-
-        <div class="correction-packages">
-          <div class="package-card">
-            <i class="ph-bold ph-shield-check package-icon"></i>
-            <h3>Machine Polish package <span class="package-price">from &pound;150</span></h3>
-            <p>Full interior and exterior deep clean with clay bar decontamination and full body machine polish.</p>
-          </div>
-          <div class="package-card">
-            <i class="ph-bold ph-medal package-icon"></i>
-            <h3>JW Valets Showroom Bundle <span class="package-price">&pound;450</span></h3>
-            <p>Full interior and exterior deep clean, full car decontamination, heavy cut compound removing 90% of imperfections, and a 2 year ceramic coating.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block mobile-service reveal-init" id="mobile">
-    <div class="container">
-      <div class="mobile-service-media">
+      <div class="mobile-service-photo" data-anim="up">
         <img src="assets/images/mobile-van-jw-valets.png" alt="JW Valets branded van on site at a customer's driveway">
       </div>
-      <div>
-        <h2>We come to you</h2>
-        <p style="color: var(--grey-light); margin-top: 14px;">No shop to drive to, no drop off, no waiting around somewhere that isn't yours. Everything JW Valets needs travels in the van.</p>
-        <ul class="mobile-points">
-          <li><span class="num">01</span> Tell us where the car is, home, work, wherever suits.</li>
-          <li><span class="num">02</span> We turn up with our own water and equipment.</li>
-          <li><span class="num">03</span> Based in the West Midlands, open to travel further for the right job.</li>
-        </ul>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <div class="wrap">
+      <div class="testimonials-head">
+        <p class="eyebrow" data-anim="up">Reputation</p>
+        <h2 data-anim="left">What clients say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
       </div>
     </div>
   </section>
 
-  <section class="block" id="gallery">
-    <div class="container">
-      <div class="section-head reveal-init">
-        <h2>Recent work</h2>
-      </div>
+  <section class="gallery" id="gallery">
+    <div class="section-banner" style="--img: url('assets/images/gallery-rolls-royce-wraith.png')" data-anim="up">
+      <div class="duo-photo"></div>
+      <div class="section-banner-shade"></div>
+      <h2>Recent work</h2>
+    </div>
+    <div class="wrap">
       <div class="gallery-grid">
-        <img class="reveal-init" src="assets/images/gallery-bmw-headlight.png" alt="BMW headlight detail with the JW Valets van in the background">
-        <img class="reveal-init" src="assets/images/gallery-audi-a3.png" alt="Audi A3 after a full valet, parked on a driveway">
-        <img class="reveal-init" src="assets/images/gallery-ferrari-458.png" alt="Ferrari 458 rear end after detailing">
-        <img class="reveal-init" src="assets/images/gallery-rolls-royce-wraith.png" alt="Rolls Royce Wraith after a detail, door open">
+        <img data-anim="up" src="assets/images/gallery-bmw-headlight.png" alt="BMW headlight detail with the JW Valets van in the background">
+        <img data-anim="up" src="assets/images/gallery-audi-a3.png" alt="Audi A3 after a full valet, parked on a driveway">
+        <img data-anim="up" src="assets/images/gallery-ferrari-458.png" alt="Ferrari 458 rear end after detailing">
+        <img data-anim="up" src="assets/images/gallery-rolls-royce-wraith.png" alt="Rolls Royce Wraith after a detail, door open">
       </div>
     </div>
   </section>
 
-  <section class="block booking reveal-init" id="book">
-    <div class="container">
-      <div class="section-head">
-        <p class="loyalty-note"><strong>10% off</strong> every 5th visit</p>
-        <h2>Request your booking</h2>
-        <p>Tell us what you need and we will confirm by phone or text. This is a request, not an instant booking.</p>
+  <section class="band band-van" aria-label="Mobile detailing across the West Midlands">
+    <div class="band-inner" data-anim="up">
+      <h2 data-anim="left">Your driveway is my workshop.</h2>
+      <a class="btn btn-on-photo" href="#book">Book a slot</a>
+    </div>
+    <a class="band-scroll" href="#book" aria-label="Scroll to the booking form"><span></span></a>
+  </section>
+
+  <section class="booking" id="book">
+    <div class="wrap wrap-narrow">
+      <div class="booking-head">
+        <p class="loyalty-note" data-anim="up"><strong>10% off</strong> every 5th visit</p>
+        <h2 data-anim="left">Request your booking</h2>
+        <p data-anim="up">Tell me what you need and I will confirm by phone or text. It is a request, not an instant booking.</p>
       </div>
 
-      <div class="booking-wizard" id="booking-wizard">
+      <div class="booking-wizard" id="booking-wizard" data-anim="up">
         <div class="booking-progress">
           <div class="booking-step-dot is-active" data-step-dot="1"><span>1</span>Service</div>
           <div class="booking-step-dot" data-step-dot="2"><span>2</span>Timing</div>
@@ -216,7 +217,7 @@
             <button type="button" class="booking-option" data-time="Afternoon">Afternoon</button>
             <button type="button" class="booking-option" data-time="Evening">Evening</button>
           </div>
-          <p class="booking-note">This is your preference, not a live availability check. We will confirm what actually works.</p>
+          <p class="booking-note">This is your preference, not my live diary. I will come back with what actually works.</p>
         </div>
 
         <div class="booking-panel" data-step="3" hidden>
@@ -235,7 +236,7 @@
           <h3>Review and send</h3>
           <div class="booking-summary" id="booking-summary"></div>
           <a class="btn btn-primary" id="booking-send" href="tel:+447391518673">Send booking request</a>
-          <p class="booking-note">This opens a text message pre-filled with your request to JW Valets. Send it from your phone and we will confirm shortly, this is a request, not a confirmed booking.</p>
+          <p class="booking-note">This opens a text to me with your request filled in. Send it from your phone and I will confirm, it is a request, not a booked slot.</p>
         </div>
 
         <p class="booking-error" id="booking-error"></p>
@@ -246,18 +247,25 @@
         </div>
       </div>
 
-      <p class="booking-direct">Prefer to skip the form? <a class="link-inline" href="tel:+447391518673">Call us</a> or <a class="link-inline" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">message us on Instagram, @_jwvalets</a> directly.</p>
+      <p class="booking-direct">Prefer to skip the form? <a class="link-inline" href="tel:+447391518673">Call me</a> or <a class="link-inline" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">message me on Instagram, @_jwvalets</a> directly.</p>
     </div>
   </section>
 
+
 </main>
 
-<footer class="site-footer">
-  <div class="container">
+<footer class="site-footer" data-anim="up">
+  <div class="wrap">
     <span>JW Valets. Nothing but luxury.</span>
     <span id="year"></span>
   </div>
 </footer>
+
+<a class="fab" href="tel:+447391518673" aria-label="Call JW Valets">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </svg>
+</a>
 
 <script src="script.js"></script>
 </body>
