@@ -25,15 +25,16 @@
 
 <main>
 
-  <section class="hero" id="hero">
-    <div class="hero-text" data-anim="left">
+  <section class="hero-full" id="hero">
+    <div class="hero-full-media">
+      <img class="hero-full-img" src="assets/images/hero-rolls-royce-grille.png" alt="Close up of a Rolls Royce grille and bonnet ornament after a JW Valets detail">
+    </div>
+    <div class="hero-full-overlay"></div>
+    <div class="hero-full-content wrap">
       <p class="eyebrow">Mobile luxury detailing, West Midlands</p>
       <h1>Nothing but luxury.<br>Nothing but the details.</h1>
       <p class="hero-sub">I do mobile valeting and paint correction, at your home or work, for cars that deserve better than a drive through wash.</p>
       <a class="btn btn-primary" href="#book">Book now</a>
-    </div>
-    <div class="hero-photo" data-anim="up">
-      <img src="assets/images/hero-rolls-royce-grille.png" alt="Close up of a Rolls Royce grille and bonnet ornament after a JW Valets detail">
     </div>
   </section>
 
@@ -44,29 +45,6 @@
       <span>Based in the West Midlands, and I travel for the right car.</span>
     </div>
   </div>
-
-  <section class="flagship" id="correction">
-    <div class="flagship-intro wrap">
-      <h2 data-anim="left">The work I am known for</h2>
-      <p data-anim="up">Machine polishing and long term ceramic protection. I do this properly or not at all, which is why I only take one of these on in a day.</p>
-    </div>
-
-    <article class="feature" data-anim="up" style="--img: url('assets/images/gallery-ferrari-458.png')">
-      <div class="feature-inner">
-        <h3>Machine Polish package</h3>
-        <p class="feature-price">from &pound;150</p>
-        <p>A full interior and exterior deep clean, then I clay bar the paint to pull off the bonded contamination and machine polish the whole body.</p>
-      </div>
-    </article>
-
-    <article class="feature feature-alt" data-anim="up" style="--img: url('assets/images/gallery-rolls-royce-wraith.png')">
-      <div class="feature-inner">
-        <h3>JW Valets Showroom Bundle</h3>
-        <p class="feature-price">&pound;450</p>
-        <p>The full job. Interior and exterior deep clean, full car decontamination, a heavy cut compound that takes out 90% of the imperfections, and a 2 year ceramic coating on top.</p>
-      </div>
-    </article>
-  </section>
 
   <section class="band band-porsche" aria-label="JW Valets craftsmanship">
     <div class="band-inner" data-anim="up">
@@ -137,18 +115,42 @@
     </div>
   </section>
 
-  <section class="gallery" id="gallery">
+  <section class="testimonials" id="testimonials">
     <div class="wrap">
-      <div class="gallery-head">
-        <h2 data-anim="left">Recent work</h2>
-        <p data-anim="up">A handful from the last month or so.</p>
+      <div class="testimonials-head">
+        <p class="eyebrow" data-anim="up">Reputation</p>
+        <h2 data-anim="left">What clients say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
+        <blockquote class="quote" data-anim="up">
+          <p>[client testimonial &mdash; to be supplied]</p>
+          <footer>[client name and car &mdash; to be supplied]</footer>
+        </blockquote>
       </div>
     </div>
-    <div class="gallery-grid">
-      <figure data-anim="up"><img src="assets/images/gallery-bmw-headlight.png" alt="BMW headlight detail with the JW Valets van in the background"></figure>
-      <figure data-anim="up"><img src="assets/images/gallery-audi-a3.png" alt="Audi A3 after a full valet, parked on a driveway"></figure>
-      <figure data-anim="up"><img src="assets/images/gallery-ferrari-458.png" alt="Ferrari 458 rear end after detailing"></figure>
-      <figure data-anim="up"><img src="assets/images/gallery-rolls-royce-wraith.png" alt="Rolls Royce Wraith after a detail, door open"></figure>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="section-banner" style="--img: url('assets/images/gallery-rolls-royce-wraith.png')" data-anim="up">
+      <div class="duo-photo"></div>
+      <div class="section-banner-shade"></div>
+      <h2>Recent work</h2>
+    </div>
+    <div class="wrap">
+      <div class="gallery-grid">
+        <img data-anim="up" src="assets/images/gallery-bmw-headlight.png" alt="BMW headlight detail with the JW Valets van in the background">
+        <img data-anim="up" src="assets/images/gallery-audi-a3.png" alt="Audi A3 after a full valet, parked on a driveway">
+        <img data-anim="up" src="assets/images/gallery-ferrari-458.png" alt="Ferrari 458 rear end after detailing">
+        <img data-anim="up" src="assets/images/gallery-rolls-royce-wraith.png" alt="Rolls Royce Wraith after a detail, door open">
+      </div>
     </div>
   </section>
 
@@ -229,6 +231,29 @@
 
       <p class="booking-direct">Prefer to skip the form? <a class="link-inline" href="tel:+447391518673">Call me</a> or <a class="link-inline" href="https://instagram.com/_jwvalets" target="_blank" rel="noopener">message me on Instagram, @_jwvalets</a> directly.</p>
     </div>
+  </section>
+
+  <section class="flagship" id="correction">
+    <div class="flagship-intro wrap">
+      <h2 data-anim="left">The work I am known for</h2>
+      <p data-anim="up">Machine polishing and long term ceramic protection. I do this properly or not at all, which is why I only take one of these on in a day.</p>
+    </div>
+
+    <article class="feature" data-anim="up" style="--img: url('assets/images/gallery-ferrari-458.png')">
+      <div class="feature-inner">
+        <h3>Machine Polish package</h3>
+        <p class="feature-price">from &pound;150</p>
+        <p>A full interior and exterior deep clean, then I clay bar the paint to pull off the bonded contamination and machine polish the whole body.</p>
+      </div>
+    </article>
+
+    <article class="feature feature-alt" data-anim="up" style="--img: url('assets/images/gallery-rolls-royce-wraith.png')">
+      <div class="feature-inner">
+        <h3>JW Valets Showroom Bundle</h3>
+        <p class="feature-price">&pound;450</p>
+        <p>The full job. Interior and exterior deep clean, full car decontamination, a heavy cut compound that takes out 90% of the imperfections, and a 2 year ceramic coating on top.</p>
+      </div>
+    </article>
   </section>
 
 </main>
