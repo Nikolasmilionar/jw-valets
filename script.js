@@ -66,6 +66,47 @@
     window.setTimeout(check, 1500);
   }
 
+  /* Parallax on the photo bands: the image layer moves slower than the
+     page as the band passes through the viewport, so the photo reads as
+     a fixed backdrop the content scrolls over. Transform based, so it
+     works on mobile where background-attachment: fixed does not. */
+  if (!prefersReducedMotion) {
+    var bandBgs = [].slice.call(document.querySelectorAll(".band-bg"));
+    if (bandBgs.length) {
+      bandBgs.forEach(function (bg) {
+        bg.parentNode.classList.add("has-parallax");
+      });
+
+      var frame = null;
+      var drift = function () {
+        frame = null;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        bandBgs.forEach(function (bg) {
+          var band = bg.parentNode;
+          var rect = band.getBoundingClientRect();
+          if (rect.bottom < -80 || rect.top > vh + 80) {
+            return;
+          }
+          var mid = (vh - rect.height) / 2;
+          var range = vh + rect.height;
+          var shift = ((rect.top - mid) / range) * 96; /* about +/-48px */
+          bg.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
+        });
+      };
+
+      var requestDrift = function () {
+        if (frame === null) {
+          frame = window.requestAnimationFrame(drift);
+        }
+      };
+
+      window.addEventListener("scroll", requestDrift, { passive: true });
+      window.addEventListener("resize", requestDrift, { passive: true });
+      window.addEventListener("load", requestDrift);
+      drift();
+    }
+  }
+
   /* Keep the floating contact button clear of the booking widget on
      small screens: hide it while the booking section is on screen. */
   var fab = document.querySelector(".fab");
