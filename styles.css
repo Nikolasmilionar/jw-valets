@@ -436,7 +436,9 @@ section[id] {
   max-width: 42ch;
 }
 
-/* Interstitial photographic bands */
+/* Interstitial photographic bands. The image sits on its own layer so it
+   can be parallaxed (moved slower than the page) by script.js. Works on
+   mobile because it is a transform, not background-attachment: fixed. */
 
 .band {
   position: relative;
@@ -447,21 +449,35 @@ section[id] {
   justify-content: center;
   text-align: center;
   padding: var(--space-2xl) var(--gutter) calc(var(--space-2xl) + 36px);
+  overflow: hidden;
+}
+
+.band-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(8, 9, 11, 0.52), rgba(8, 9, 11, 0.62)),
+    var(--img);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.band-porsche {
-  background-image:
-    linear-gradient(rgba(8, 9, 11, 0.52), rgba(8, 9, 11, 0.62)),
-    url("assets/images/correction-porsche-911.png");
+/* When script.js drives the parallax it adds .has-parallax and the layer
+   is grown top and bottom so the transform never exposes an edge. */
+.band.has-parallax .band-bg {
+  top: -64px;
+  height: calc(100% + 128px);
+  will-change: transform;
 }
 
-.band-van {
-  background-image:
-    linear-gradient(rgba(8, 9, 11, 0.52), rgba(8, 9, 11, 0.62)),
-    url("assets/images/mobile-van-jw-valets.png");
+.band-inner,
+.band-scroll {
+  position: relative;
+  z-index: 1;
 }
 
 .band-inner {
@@ -1168,10 +1184,7 @@ section[id] {
 }
 
 @media (min-width: 1000px) {
-  /* Parallax: image sits still while the page scrolls past it.
-     Desktop only, so mobile never gets the janky fixed attachment. */
   .band {
-    background-attachment: fixed;
     min-height: 78vh;
   }
 }
@@ -1184,7 +1197,9 @@ section[id] {
     animation: none !important;
   }
 
-  .band {
-    background-attachment: scroll !important;
+  .band.has-parallax .band-bg {
+    top: 0;
+    height: 100%;
+    transform: none !important;
   }
 }
