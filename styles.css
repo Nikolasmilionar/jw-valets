@@ -469,8 +469,8 @@ section[id] {
 /* When script.js drives the parallax it adds .has-parallax and the layer
    is grown top and bottom so the transform never exposes an edge. */
 .band.has-parallax .band-bg {
-  top: -64px;
-  height: calc(100% + 128px);
+  top: -120px;
+  height: calc(100% + 240px);
   will-change: transform;
 }
 

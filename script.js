@@ -89,7 +89,7 @@
           }
           var mid = (vh - rect.height) / 2;
           var range = vh + rect.height;
-          var shift = ((rect.top - mid) / range) * 96; /* about +/-48px */
+          var shift = ((rect.top - mid) / range) * 190; /* about +/-95px */
           bg.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
         });
       };
