@@ -8,55 +8,62 @@
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  /* Scroll entrance motion. Headings with data-anim="left" slide in from
-     the left, blocks with data-anim="up" fade up, each once when they
-     enter the viewport. Anything already on screen at load is shown
-     straight away, so nothing above the fold waits on an async callback.
-     A safety timer reveals any stragglers if the observer never fires.
-     Under prefers-reduced-motion we never hide anything at all. */
-  if (!prefersReducedMotion && "IntersectionObserver" in window) {
-    var animEls = document.querySelectorAll("[data-anim]");
+  /* Scroll entrance motion. Elements with data-anim="left" slide in from
+     the left, data-anim="up" fade up, each once as it reaches the lower
+     part of the viewport. Same behaviour on mobile and desktop. A plain
+     scroll check is used rather than IntersectionObserver so it is
+     predictable everywhere. Whatever is on the first screen is shown at
+     once; everything below animates when it is scrolled into view. If
+     the script never runs, the hidden state is never applied and the
+     page stays fully visible. Under prefers-reduced-motion nothing is
+     hidden and nothing moves. */
+  if (!prefersReducedMotion) {
+    var animEls = [].slice.call(document.querySelectorAll("[data-anim]"));
 
-    var reveal = function (el) {
-      el.classList.remove("anim-pending");
-      el.classList.add("anim-in");
+    var check = function () {
+      if (!animEls.length) {
+        return;
+      }
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var remaining = [];
+      animEls.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top < vh * 0.88 && rect.bottom > 0) {
+          el.classList.remove("anim-pending");
+          el.classList.add("anim-in");
+        } else {
+          remaining.push(el);
+        }
+      });
+      animEls = remaining;
+      if (!animEls.length) {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      }
     };
+
+    var lastRun = 0;
+    var onScroll = function () {
+      var now = Date.now();
+      if (now - lastRun < 90) {
+        return;
+      }
+      lastRun = now;
+      check();
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("load", check);
 
     animEls.forEach(function (el) {
       el.classList.add("anim-pending");
     });
 
-    var animObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            reveal(entry.target);
-            animObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-
-    animEls.forEach(function (el) {
-      animObserver.observe(el);
-    });
-
-    /* Safety nets so content is never left invisible: reveal whatever is
-       in view once the page has fully loaded, then force-reveal anything
-       still pending shortly after. */
-    var revealVisible = function () {
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      document.querySelectorAll("[data-anim].anim-pending").forEach(function (el) {
-        if (el.getBoundingClientRect().top < vh) {
-          reveal(el);
-        }
-      });
-    };
-    window.addEventListener("load", revealVisible);
-    window.setTimeout(function () {
-      document.querySelectorAll("[data-anim].anim-pending").forEach(reveal);
-    }, 2000);
+    check();
+    /* Re-check after layout may have shifted (fonts, images loading). */
+    window.setTimeout(check, 400);
+    window.setTimeout(check, 1500);
   }
 
   /* Keep the floating contact button clear of the booking widget on

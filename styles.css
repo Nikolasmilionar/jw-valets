@@ -58,11 +58,9 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-}
-
-html,
-body {
-  overflow-x: hidden;
+  /* clip, not hidden, so the root stays the single scroll container and
+     the scroll-in animations cannot spawn a horizontal scrollbar */
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -262,15 +260,14 @@ section[id] {
 @media (prefers-reduced-motion: no-preference) {
   [data-anim].anim-pending {
     opacity: 0;
-    will-change: opacity, transform;
   }
 
   [data-anim="up"].anim-pending {
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
 
   [data-anim="left"].anim-pending {
-    transform: translateX(-22px);
+    transform: translateX(-16px);
   }
 
   [data-anim].anim-in {
