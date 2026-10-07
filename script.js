@@ -32,51 +32,6 @@
     items.forEach(function (el) { reveal.observe(el); });
   }
 
-  /* Service strips. Pointer devices: hover opens a strip, leaving the list
-     closes it. Touch: the strip crossing the middle of the screen opens
-     (observer on the fixed-height heads, so it cannot feed back on itself),
-     and a tap toggles. */
-  var list = document.getElementById("svc-list");
-  if (list) {
-    var strips = $(".svc", list);
-    var lockedUntil = 0;
-
-    var open = function (target) {
-      strips.forEach(function (s) {
-        var on = s === target;
-        s.classList.toggle("is-open", on);
-        s.querySelector(".svc-head").setAttribute("aria-expanded", on ? "true" : "false");
-      });
-      list.classList.toggle("has-open", !!target);
-    };
-
-    var hover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-    strips.forEach(function (s) {
-      var head = s.querySelector(".svc-head");
-      head.addEventListener("click", function () {
-        lockedUntil = Date.now() + 2500;
-        open(hover || !s.classList.contains("is-open") ? s : null);
-      });
-      if (hover) {
-        s.addEventListener("mouseenter", function () { open(s); });
-        head.addEventListener("focus", function () { open(s); });
-      }
-    });
-
-    if (hover) {
-      list.addEventListener("mouseleave", function () { open(null); });
-    } else if (!reduce && "IntersectionObserver" in window) {
-      var middle = new IntersectionObserver(function (entries) {
-        if (Date.now() < lockedUntil) { return; }
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { open(e.target.parentNode); }
-        });
-      }, { rootMargin: "-44% 0px -44% 0px" });
-      $(".svc-head", list).forEach(function (h) { middle.observe(h); });
-    }
-  }
-
   /* The call and book bar stays out of the way: hidden while the hero's own
      button is on screen, and never on top of the booking widget. */
   var dock = document.querySelector(".dock");
