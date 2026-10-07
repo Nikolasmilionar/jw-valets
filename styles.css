@@ -61,6 +61,20 @@ html {
   overflow-x: clip;
 }
 
+/* Lenis smooth scroll, only active when script.js starts it */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: var(--bg);
   color: var(--white);
@@ -302,11 +316,11 @@ section[id] {
 @media (prefers-reduced-motion: no-preference) {
   .h-line > span {
     transform: translateY(110%);
-    animation: line-in 1s var(--ease) 0.15s forwards;
+    animation: line-in 0.75s var(--ease) 0.08s forwards;
   }
 
   .h-line:nth-child(2) > span {
-    animation-delay: 0.32s;
+    animation-delay: 0.2s;
   }
 }
 
@@ -349,8 +363,10 @@ section[id] {
   color: var(--grey);
 }
 
-/* Services. Full-width photo panels, about 60vh. Each one pins and the next
-   slides over it, while the one underneath shrinks and darkens a little. */
+/* Services. Full-width photo bands, text alternating left and right on
+   larger screens. Each band opens from the centre when it enters the screen,
+   the photo settles from 110% to 100%, then drifts slowly inside the band.
+   The outline number moves slower than the photo. */
 
 .services {
   padding-top: var(--space-2xl);
@@ -366,121 +382,177 @@ section[id] {
   color: var(--grey-light);
 }
 
-.pnl-stack {
-  position: relative;
+.sv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.pnl {
-  position: sticky;
-  top: 0;
-  height: 60vh;
-  height: 60svh;
-  min-height: 420px;
+.sv {
+  position: relative;
+  isolation: isolate;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
   overflow: hidden;
-  background: var(--bg);
-  box-shadow: 0 -26px 60px rgba(0, 0, 0, 0.6);
+  padding: var(--space-m) var(--gutter) var(--space-s);
 }
 
-.pnl-in {
-  position: relative;
-  height: 100%;
-  transform-origin: 50% 0;
-}
+.sv-left { --from: -64px; }
+.sv-right { --from: 64px; }
 
-.pnl-img {
+.sv-stage {
   position: absolute;
   inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.sv-media {
+  position: absolute;
+  inset: 0;
+}
+
+.sv-img {
+  position: absolute;
+  left: 0;
+  top: -10%;
   width: 100%;
-  height: 100%;
+  height: 120%;
   object-fit: cover;
   object-position: var(--pos, 50% 50%);
 }
 
-/* the dark sits only under the text, the rest of the photo stays clear.
-   Phone: the text runs the full width, so the dark rises from the bottom. */
-.pnl-in::after {
+/* the dark sits only under the text; on a phone the text runs the full
+   width, so it rises from the bottom */
+.sv-stage::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(8, 9, 11, 0.96) 0%, rgba(8, 9, 11, 0.84) 34%, rgba(8, 9, 11, 0.45) 58%, rgba(8, 9, 11, 0) 80%);
+  background: linear-gradient(to top, rgba(8, 9, 11, 0.95) 0%, rgba(8, 9, 11, 0.88) 45%, rgba(8, 9, 11, 0.6) 72%, rgba(8, 9, 11, 0) 94%);
 }
 
-.pnl-text {
+.sv-num {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 10px var(--gutter);
+  pointer-events: none;
+}
+
+.sv-num span {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 800;
+  line-height: 0.8;
+  font-size: clamp(6.5rem, 34vw, 10rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(243, 245, 247, 0.42);
+}
+
+.sv-text {
   width: 100%;
-  max-width: 700px;
-  padding: var(--space-m) var(--gutter) var(--space-l);
+  max-width: 560px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-xs);
 }
 
-.pnl-name {
-  font-size: clamp(1.55rem, 1.1rem + 2.4vw, 2.9rem);
+.sv-name {
+  font-size: clamp(1.5rem, 1.1rem + 2.2vw, 2.6rem);
 }
 
-.pnl-line {
+.sv-line {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px var(--space-s);
 }
 
-.pnl-price {
+.sv-price {
   font-family: var(--font-display);
   font-stretch: 125%;
   font-weight: 800;
   font-size: var(--step-3);
   color: var(--accent);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
 }
 
-.pnl-meta {
+.sv-meta {
   font-size: var(--step--1);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--grey-light);
 }
 
-.pnl-note {
+.sv-note {
   max-width: 48ch;
   color: var(--white);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-.pnl-text .btn {
+.sv-text .btn {
   margin-top: var(--space-2xs);
 }
 
-@keyframes pnl-away {
-  to {
-    transform: scale(0.94);
-    filter: brightness(0.42);
-  }
+/* Entrance. script.js adds .sv-pending only when motion is allowed. */
+
+.sv-stage {
+  transition: clip-path 0.8s var(--ease);
 }
 
-/* Each panel is dimmed by the progress of the NEXT panel sliding over it,
-   from the moment it touches the pinned panel until it fully covers it. */
-@supports (animation-timeline: view()) and (timeline-scope: --a) {
+.sv-media {
+  transition: transform 0.8s var(--ease);
+}
+
+.sv-text {
+  transition: opacity 0.6s ease 0.22s, transform 0.7s var(--ease) 0.22s;
+}
+
+.sv-pending .sv-stage {
+  clip-path: inset(50% 0 50% 0);
+}
+
+.sv-pending .sv-media {
+  transform: scale(1.1);
+}
+
+.sv-pending .sv-text {
+  opacity: 0;
+  transform: translateX(var(--from));
+}
+
+@keyframes sv-drift {
+  from { transform: translateY(-6%); }
+  to { transform: translateY(6%); }
+}
+
+@keyframes sv-num-drift {
+  from { transform: translateY(-3%); }
+  to { transform: translateY(3%); }
+}
+
+@supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .pnl-stack {
-      timeline-scope: --p2, --p3, --p4, --p5, --p6;
+    .sv {
+      view-timeline: --sv block;
     }
 
-    .pnl:nth-child(2) { view-timeline: --p2 block; }
-    .pnl:nth-child(3) { view-timeline: --p3 block; }
-    .pnl:nth-child(4) { view-timeline: --p4 block; }
-    .pnl:nth-child(5) { view-timeline: --p5 block; }
-    .pnl:nth-child(6) { view-timeline: --p6 block; }
+    .sv-img {
+      animation: sv-drift linear both;
+      animation-timeline: --sv;
+    }
 
-    .pnl:nth-child(1) .pnl-in { animation: pnl-away linear both; animation-timeline: --p2; animation-range: cover 40svh cover 100svh; }
-    .pnl:nth-child(2) .pnl-in { animation: pnl-away linear both; animation-timeline: --p3; animation-range: cover 40svh cover 100svh; }
-    .pnl:nth-child(3) .pnl-in { animation: pnl-away linear both; animation-timeline: --p4; animation-range: cover 40svh cover 100svh; }
-    .pnl:nth-child(4) .pnl-in { animation: pnl-away linear both; animation-timeline: --p5; animation-range: cover 40svh cover 100svh; }
-    .pnl:nth-child(5) .pnl-in { animation: pnl-away linear both; animation-timeline: --p6; animation-range: cover 40svh cover 100svh; }
+    .sv-num span {
+      animation: sv-num-drift linear both;
+      animation-timeline: --sv;
+    }
   }
 }
 
@@ -1079,7 +1151,7 @@ section[id] {
   .anim-in {
     opacity: 1;
     transform: none;
-    transition: opacity 0.6s ease, transform 0.8s var(--ease);
+    transition: opacity 0.6s ease, transform 0.7s var(--ease);
   }
 }
 
@@ -1200,8 +1272,48 @@ section[id] {
 }
 
 @media (min-width: 900px) {
-  .pnl-in::after {
-    background: radial-gradient(130% 95% at 0% 100%, rgba(8, 9, 11, 0.94), rgba(8, 9, 11, 0.58) 42%, rgba(8, 9, 11, 0) 74%);
+  .sv {
+    min-height: clamp(380px, 28vw, 440px);
+    align-items: center;
+    padding: var(--space-l) max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+  }
+
+  .sv-text {
+    max-width: 500px;
+  }
+
+  .sv-note {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .sv-right .sv-text {
+    margin-left: auto;
+  }
+
+  .sv-name {
+    font-size: clamp(1.8rem, 1rem + 2.4vw, 2.8rem);
+  }
+
+  .sv-left .sv-stage::after {
+    background: radial-gradient(70% 135% at 0% 50%, rgba(8, 9, 11, 0.9), rgba(8, 9, 11, 0.62) 46%, rgba(8, 9, 11, 0) 78%);
+  }
+
+  .sv-right .sv-stage::after {
+    background: radial-gradient(70% 135% at 100% 50%, rgba(8, 9, 11, 0.9), rgba(8, 9, 11, 0.62) 46%, rgba(8, 9, 11, 0) 78%);
+  }
+
+  .sv-num {
+    align-items: center;
+    padding: 0 max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+  }
+
+  .sv-right .sv-num {
+    justify-content: flex-start;
+  }
+
+  .sv-num span {
+    font-size: clamp(11rem, 19vw, 18rem);
   }
 
   .hero-media {
@@ -1318,10 +1430,6 @@ section[id] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pnl {
-    position: relative;
-    box-shadow: none;
-  }
 
   .ticker-track {
     width: auto;

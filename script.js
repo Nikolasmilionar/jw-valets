@@ -32,6 +32,45 @@
     items.forEach(function (el) { reveal.observe(el); });
   }
 
+  /* Service bands open from the centre the first time they reach the screen.
+     The hidden state is added here, so no JS or reduced motion shows them. */
+  if (!reduce && "IntersectionObserver" in window) {
+    var bands = $(".sv");
+    bands.forEach(function (b) { b.classList.add("sv-pending"); });
+
+    var open = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
+          e.target.classList.remove("sv-pending");
+          open.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    bands.forEach(function (b) { open.observe(b); });
+  }
+
+  /* Smooth scrolling with Lenis. Off for reduced motion, and off on touch
+     screens by Lenis' own default, so phones keep native momentum. */
+  if (!reduce && window.Lenis) {
+    var lenis = new Lenis({ duration: 1.05 });
+    var frame = function (time) {
+      lenis.raf(time);
+      window.requestAnimationFrame(frame);
+    };
+    window.requestAnimationFrame(frame);
+
+    $('a[href^="#"]').forEach(function (a) {
+      a.addEventListener("click", function (ev) {
+        var id = a.getAttribute("href");
+        var target = id.length > 1 ? document.querySelector(id) : null;
+        if (!target) { return; }
+        ev.preventDefault();
+        lenis.scrollTo(target, { offset: -72, duration: 1.1 });
+      });
+    });
+  }
+
   /* The call and book bar stays out of the way: hidden while the hero's own
      button is on screen, and never on top of the booking widget. */
   var dock = document.querySelector(".dock");
