@@ -1,138 +1,98 @@
 (function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (sel, root) { return [].slice.call((root || document).querySelectorAll(sel)); };
+
   var yearEl = document.getElementById("year");
   if (yearEl) {
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  var prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+  /* Entrance reveals. The hidden state is added here, never in the CSS,
+     so without JS or with reduced motion everything is simply visible.
+     Browsers without scroll-driven animations get the gallery fade too. */
+  if (!window.CSS || !CSS.supports("animation-timeline", "view()")) {
+    $(".gal").forEach(function (el) { el.setAttribute("data-anim", "up"); });
+  }
 
-  /* Scroll entrance motion. Elements with data-anim="left" slide in from
-     the left, data-anim="up" fade up, each once as it reaches the lower
-     part of the viewport. Same behaviour on mobile and desktop. A plain
-     scroll check is used rather than IntersectionObserver so it is
-     predictable everywhere. Whatever is on the first screen is shown at
-     once; everything below animates when it is scrolled into view. If
-     the script never runs, the hidden state is never applied and the
-     page stays fully visible. Under prefers-reduced-motion nothing is
-     hidden and nothing moves. */
-  if (!prefersReducedMotion) {
-    var animEls = [].slice.call(document.querySelectorAll("[data-anim]"));
+  if (!reduce && "IntersectionObserver" in window) {
+    var items = $("[data-anim]");
+    items.forEach(function (el) { el.classList.add("anim-pending"); });
 
-    var check = function () {
-      if (!animEls.length) {
-        return;
-      }
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var remaining = [];
-      animEls.forEach(function (el) {
-        var rect = el.getBoundingClientRect();
-        if (rect.top < vh * 0.88 && rect.bottom > 0) {
-          el.classList.remove("anim-pending");
-          el.classList.add("anim-in");
-        } else {
-          remaining.push(el);
+    var reveal = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        /* above the viewport counts too, so anchor jumps never leave holes */
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
+          e.target.classList.remove("anim-pending");
+          e.target.classList.add("anim-in");
+          reveal.unobserve(e.target);
         }
       });
-      animEls = remaining;
-      if (!animEls.length) {
-        window.removeEventListener("scroll", onScroll);
-        window.removeEventListener("resize", onScroll);
-      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+    items.forEach(function (el) { reveal.observe(el); });
+  }
+
+  /* Service strips. Pointer devices: hover opens a strip, leaving the list
+     closes it. Touch: the strip crossing the middle of the screen opens
+     (observer on the fixed-height heads, so it cannot feed back on itself),
+     and a tap toggles. */
+  var list = document.getElementById("svc-list");
+  if (list) {
+    var strips = $(".svc", list);
+    var lockedUntil = 0;
+
+    var open = function (target) {
+      strips.forEach(function (s) {
+        var on = s === target;
+        s.classList.toggle("is-open", on);
+        s.querySelector(".svc-head").setAttribute("aria-expanded", on ? "true" : "false");
+      });
+      list.classList.toggle("has-open", !!target);
     };
 
-    var lastRun = 0;
-    var onScroll = function () {
-      var now = Date.now();
-      if (now - lastRun < 90) {
-        return;
+    var hover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    strips.forEach(function (s) {
+      var head = s.querySelector(".svc-head");
+      head.addEventListener("click", function () {
+        lockedUntil = Date.now() + 2500;
+        open(hover || !s.classList.contains("is-open") ? s : null);
+      });
+      if (hover) {
+        s.addEventListener("mouseenter", function () { open(s); });
+        head.addEventListener("focus", function () { open(s); });
       }
-      lastRun = now;
-      check();
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    window.addEventListener("load", check);
-
-    animEls.forEach(function (el) {
-      el.classList.add("anim-pending");
     });
 
-    check();
-    /* Re-check after layout may have shifted (fonts, images loading). */
-    window.setTimeout(check, 400);
-    window.setTimeout(check, 1500);
-  }
-
-  /* Parallax on the photo bands: the image layer moves slower than the
-     page as the band passes through the viewport, so the photo reads as
-     a fixed backdrop the content scrolls over. Transform based, so it
-     works on mobile where background-attachment: fixed does not. */
-  if (!prefersReducedMotion) {
-    var bandBgs = [].slice.call(document.querySelectorAll(".band-bg"));
-    if (bandBgs.length) {
-      bandBgs.forEach(function (bg) {
-        bg.parentNode.classList.add("has-parallax");
-      });
-
-      var frame = null;
-      var drift = function () {
-        frame = null;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        bandBgs.forEach(function (bg) {
-          var band = bg.parentNode;
-          var rect = band.getBoundingClientRect();
-          if (rect.bottom < -80 || rect.top > vh + 80) {
-            return;
-          }
-          var mid = (vh - rect.height) / 2;
-          var range = vh + rect.height;
-          var shift = ((rect.top - mid) / range) * 190; /* about +/-95px */
-          bg.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
+    if (hover) {
+      list.addEventListener("mouseleave", function () { open(null); });
+    } else if (!reduce && "IntersectionObserver" in window) {
+      var middle = new IntersectionObserver(function (entries) {
+        if (Date.now() < lockedUntil) { return; }
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { open(e.target.parentNode); }
         });
-      };
-
-      var requestDrift = function () {
-        if (frame === null) {
-          frame = window.requestAnimationFrame(drift);
-        }
-      };
-
-      window.addEventListener("scroll", requestDrift, { passive: true });
-      window.addEventListener("resize", requestDrift, { passive: true });
-      window.addEventListener("load", requestDrift);
-      drift();
+      }, { rootMargin: "-44% 0px -44% 0px" });
+      $(".svc-head", list).forEach(function (h) { middle.observe(h); });
     }
   }
 
-  /* Keep the floating contact button clear of the booking widget on
-     small screens: hide it while the booking section is on screen. */
-  var fab = document.querySelector(".fab");
-  var bookingSection = document.getElementById("book");
-  if (fab && bookingSection && "IntersectionObserver" in window) {
-    var smallScreen = window.matchMedia("(max-width: 699px)");
-
-    var fabObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          var overlapping = entry.isIntersecting && smallScreen.matches;
-          fab.classList.toggle("is-hidden", overlapping);
+  /* The call and book bar stays out of the way: hidden while the hero's own
+     button is on screen, and never on top of the booking widget. */
+  var dock = document.querySelector(".dock");
+  if (dock && "IntersectionObserver" in window) {
+    var covered = {};
+    var watch = function (el, key) {
+      if (!el) { return; }
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          covered[key] = e.isIntersecting;
+          dock.classList.toggle("is-hidden", !!(covered.hero || covered.book));
         });
-      },
-      { threshold: 0.08 }
-    );
-
-    fabObserver.observe(bookingSection);
-
-    if (smallScreen.addEventListener) {
-      smallScreen.addEventListener("change", function () {
-        if (!smallScreen.matches) {
-          fab.classList.remove("is-hidden");
-        }
-      });
-    }
+      }, { threshold: 0.05 }).observe(el);
+    };
+    watch(document.querySelector(".hero-content .btn"), "hero");
+    watch(document.getElementById("book"), "book");
   }
 })();
 
